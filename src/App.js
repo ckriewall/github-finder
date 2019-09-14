@@ -4,6 +4,7 @@ import Alert from './components/layout/Alert';
 import Navbar from './components/layout/Navbar';
 import About from './components/pages/About';
 import Search from './components/users/Search';
+import User from './components/users/User';
 import Users from './components/users/Users';
 import axios from 'axios';
 
@@ -12,21 +13,28 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null
   };
 
   // arrow functions take async before the parameter
   searchUsers = async text => {
-    console.log(text);
-    this.setState({ loading: false });
-
     this.setState({ loading: true });
     const res = await axios.get(
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
     this.setState({ users: res.data.items, loading: false });
     console.log(res.data);
+  };
+
+  getUser = async username => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    console.log(res);
+    this.setState({ user: res.data, loading: false });
   };
 
   clearUsers = () => {
@@ -40,7 +48,7 @@ class App extends Component {
   };
 
   render() {
-    const { users, loading, alert } = this.state;
+    const { user, users, loading, alert } = this.state;
     return (
       <BrowserRouter>
         <div className='App'>
@@ -68,6 +76,21 @@ class App extends Component {
               />
 
               <Route exact path='/about' component={About} />
+
+              <Route
+                exact
+                path='/user/:login'
+                render={props => (
+                  <Fragment>
+                    <User
+                      {...props}
+                      getUser={this.getUser}
+                      user={user}
+                      loading={loading}
+                    />
+                  </Fragment>
+                )}
+              />
             </Switch>
           </div>
         </div>
