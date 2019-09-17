@@ -1,13 +1,19 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
 import Repos from '../repos/Repos';
 import { Link } from 'react-router-dom';
+import GithubContext from '../../context/github/githubContext';
 
-const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
-  // passing in an empty array prevents useEffect from running forever
-  // that workaround causes an linter error. use eslint-disable-next-line to ignore the warning
+const User = ({ getUserRepos, repos, match }) => {
+  const githubContext = useContext(GithubContext);
+  const { getUser, loading, user } = githubContext;
   useEffect(() => {
+    // the second parameter tells useEffect when to run
+    // "[]" means run once, preventing useEffect from running forever
+    // "repos" means run when repos changes
+    // the [] workaround causes an linter error. use eslint-disable-next-line to ignore the warning
+
     getUser(match.params.login);
     getUserRepos(match.params.login);
     // eslint-disable-next-line
@@ -102,8 +108,6 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
 
 User.propTypes = {
   loading: PropTypes.bool,
-  user: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
   getUserRepos: PropTypes.func.isRequired,
   repos: PropTypes.array.isRequired
 };
