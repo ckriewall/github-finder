@@ -1,4 +1,7 @@
-// initial state and actions
+/* 
+  ContextSTATE: defines initial state and actions.
+  Results from actions are dispatched to the ContextREDUCER to change global state
+*/
 
 import React, { useReducer } from 'react';
 import axios from 'axios';
@@ -20,8 +23,10 @@ const GithubState = props => {
     loading: false
   };
 
-  // send action to the reducer
+  // useReducer hook sends state and changes to REDUCER.
   const [state, dispatch] = useReducer(GithubReducer, initialState);
+
+  /* DEFINE ACTIONS */
 
   // Search Users
   const searchUsers = async text => {
@@ -50,7 +55,20 @@ const GithubState = props => {
       payload: res.data
     });
   };
+
   // Get Repos
+  const getUserRepos = async username => {
+    setLoading();
+
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data
+    });
+  };
 
   // Clear Users
   const clearUsers = () => dispatch({ type: CLEAR_USERS });
@@ -58,7 +76,10 @@ const GithubState = props => {
   // Set Loading
   const setLoading = () => dispatch({ type: SET_LOADING });
 
-  // expose data to entire app
+  /* END DEFINE ACTIONS */
+
+  // Context PROVIDER exposes data and functions to the app.
+  // This return allows Context providers to be wrapped around Routes in App.js
   return (
     <GithubContext.Provider
       value={{
@@ -68,7 +89,8 @@ const GithubState = props => {
         loading: state.loading,
         searchUsers,
         clearUsers,
-        getUser
+        getUser,
+        getUserRepos
       }}
     >
       {props.children}

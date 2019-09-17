@@ -1,13 +1,12 @@
 import React, { Fragment, useEffect, useContext } from 'react';
 import Spinner from '../layout/Spinner';
-import PropTypes from 'prop-types';
 import Repos from '../repos/Repos';
 import { Link } from 'react-router-dom';
 import GithubContext from '../../context/github/githubContext';
 
-const User = ({ getUserRepos, repos, match }) => {
+const User = ({ match }) => {
   const githubContext = useContext(GithubContext);
-  const { getUser, loading, user } = githubContext;
+  const { getUser, loading, user, getUserRepos, repos } = githubContext;
   useEffect(() => {
     // the second parameter tells useEffect when to run
     // "[]" means run once, preventing useEffect from running forever
@@ -104,12 +103,6 @@ const User = ({ getUserRepos, repos, match }) => {
       <Repos repos={repos} />
     </Fragment>
   );
-};
-
-User.propTypes = {
-  loading: PropTypes.bool,
-  getUserRepos: PropTypes.func.isRequired,
-  repos: PropTypes.array.isRequired
 };
 
 export default User;

@@ -1,3 +1,9 @@
+/* 
+  CONTEXT REDUCER: import action type constants, then define return values for each action.
+  Copy current state with spread operator (...state).
+  action.payload contains data from the API api call made in the ContextState file
+*/
+
 import {
   SEARCH_USERS,
   SET_LOADING,
@@ -7,8 +13,13 @@ import {
 } from '../types';
 
 export default (state, action) => {
-  // copy current state with spread operator
   switch (action.type) {
+    case GET_REPOS:
+      return {
+        ...state,
+        repos: action.payload,
+        loading: false
+      };
     case GET_USER:
       return {
         ...state,
@@ -22,7 +33,6 @@ export default (state, action) => {
         loading: false
       };
     case SEARCH_USERS:
-      // action.payload contains users from api call
       return { ...state, users: action.payload, loading: false };
     case SET_LOADING:
       return {
