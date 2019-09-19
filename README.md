@@ -4,6 +4,8 @@ This project is part of the Udemy course [React Front To Back 2019](https://www.
 
 ## Demo
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e8fc9a5c-4e7a-48b8-b830-5b09bdf5c3cf/deploy-status)](https://app.netlify.com/sites/github-finder-ckriewall/deploys)
+
 See the [demo on Netflify](https://github-finder-ckriewall.netlify.com/)
 
 ## Skills Practiced
