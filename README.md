@@ -16,6 +16,7 @@ This project is part of the Udemy course [React Front To Back 2019](https://www.
 - src/context/domain/domainContext.js
 - src/context/domain/domainReducer.js
 - src/context/domain/DomainState.js
+- src/context/types.js
 
 #### domainContext.js
 
@@ -31,6 +32,12 @@ This project is part of the Udemy course [React Front To Back 2019](https://www.
 
 - Define initial state and actions
 - Results from actions are dispatched to the Reduer to change global state
+
+#### types.js
+
+- Define constants for referring to action types
+
+  export const SEARCH_USERS = 'SEARCH_USERS';
 
 ## Making a Progressive Web App
 

@@ -15,6 +15,19 @@ import {
   GET_REPOS
 } from '../types';
 
+let githubClientId;
+let githubClientSecret;
+
+if (process.env.NODE_ENV !== 'production') {
+  // in dev get id/secret from .env.local
+  githubClientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
+  githubClientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+} else {
+  // in production get id/secret from host global environment (Netlify)
+  githubClientId = process.env.GITHUB_CLIENT_ID;
+  githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+}
+
 const GithubState = props => {
   const initialState = {
     users: [],
@@ -33,7 +46,7 @@ const GithubState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client_id=${githubClientId}&client_secret=${githubClientSecret}`
     );
 
     dispatch({
@@ -47,7 +60,7 @@ const GithubState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/users/${username}?client_id=${githubClientId}&client_secret=${githubClientSecret}`
     );
 
     dispatch({
@@ -61,7 +74,7 @@ const GithubState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${githubClientId}&client_secret=${githubClientSecret}`
     );
 
     dispatch({
@@ -78,8 +91,10 @@ const GithubState = props => {
 
   /* END DEFINE ACTIONS */
 
-  // Context PROVIDER exposes data and functions to the app.
-  // This return allows Context providers to be wrapped around Routes in App.js
+  /* 
+    Context PROVIDER exposes data and functions to the app.
+    This 'return' allows Context providers to be wrapped around Routes in App.js.
+  */
   return (
     <GithubContext.Provider
       value={{
