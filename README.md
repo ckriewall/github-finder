@@ -2,6 +2,10 @@
 
 This project is part of the Udemy course [React Front To Back 2019](https://www.udemy.com/modern-react-front-to-back).
 
+## Demo
+
+See the [demo on Netflify](https://github-finder-ckriewall.netlify.com/)
+
 ## Skills Practiced
 
 - Replace class components with functional components
@@ -38,6 +42,10 @@ This project is part of the Udemy course [React Front To Back 2019](https://www.
 - Define constants for referring to action types
 
   export const SEARCH_USERS = 'SEARCH_USERS';
+
+## Deploy
+
+Production site on Netlify syncs with Github via [Continuous Deployment](https://www.netlify.com/docs/continuous-deployment/).
 
 ## Making a Progressive Web App
 
