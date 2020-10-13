@@ -11,9 +11,9 @@ const Search = () => {
   //    returns: the current state (e.g. text) and a function that updates it (e.g. setText)
   const [text, setText] = useState('');
 
-  const onChange = e => setText(e.target.value);
+  const onChange = (e) => setText(e.target.value);
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (text === '') {
       alertContext.setAlert('Please enter something', 'light');
@@ -25,6 +25,7 @@ const Search = () => {
 
   return (
     <div>
+      <p>GitHub API rate limits apply to these anonymous searches.</p>
       <form onSubmit={onSubmit} className='form'>
         <input
           type='text'

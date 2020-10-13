@@ -12,28 +12,21 @@ import {
   SET_LOADING,
   CLEAR_USERS,
   GET_USER,
-  GET_REPOS
+  GET_REPOS,
 } from '../types';
 
-let githubClientId;
-let githubClientSecret;
-
 if (process.env.NODE_ENV !== 'production') {
-  // in dev get id/secret from .env.local
-  githubClientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
-  githubClientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+  // in dev get authtokens from .env.local
 } else {
-  // in production get id/secret from host global environment (Netlify)
-  githubClientId = process.env.GITHUB_CLIENT_ID;
-  githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+  // production auth tokens can be placed here
 }
 
-const GithubState = props => {
+const GithubState = (props) => {
   const initialState = {
     users: [],
     user: {},
     repos: [],
-    loading: false
+    loading: false,
   };
 
   // useReducer hook sends state and changes to REDUCER.
@@ -42,44 +35,44 @@ const GithubState = props => {
   /* DEFINE ACTIONS */
 
   // Search Users
-  const searchUsers = async text => {
+  const searchUsers = async (text) => {
     setLoading();
 
     const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${githubClientId}&client_secret=${githubClientSecret}`
+      `https://api.github.com/search/users?q=${text}`
     );
 
     dispatch({
       type: SEARCH_USERS,
-      payload: res.data.items
+      payload: res.data.items,
     });
   };
 
   // Get User
-  const getUser = async username => {
+  const getUser = async (username) => {
     setLoading();
 
-    const res = await axios.get(
-      `https://api.github.com/users/${username}?client_id=${githubClientId}&client_secret=${githubClientSecret}`
-    );
+    const res = await axios.get(`https://api.github.com/users/${username}`);
+
+    console.log(res);
 
     dispatch({
       type: GET_USER,
-      payload: res.data
+      payload: res.data,
     });
   };
 
   // Get Repos
-  const getUserRepos = async username => {
+  const getUserRepos = async (username) => {
     setLoading();
 
     const res = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${githubClientId}&client_secret=${githubClientSecret}`
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc`
     );
 
     dispatch({
       type: GET_REPOS,
-      payload: res.data
+      payload: res.data,
     });
   };
 
@@ -105,7 +98,7 @@ const GithubState = props => {
         searchUsers,
         clearUsers,
         getUser,
-        getUserRepos
+        getUserRepos,
       }}
     >
       {props.children}
