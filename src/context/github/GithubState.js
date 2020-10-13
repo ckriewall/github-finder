@@ -54,8 +54,6 @@ const GithubState = (props) => {
 
     const res = await axios.get(`https://api.github.com/users/${username}`);
 
-    console.log(res);
-
     dispatch({
       type: GET_USER,
       payload: res.data,
